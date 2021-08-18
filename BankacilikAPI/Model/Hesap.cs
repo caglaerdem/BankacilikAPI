@@ -12,17 +12,17 @@ namespace BankacilikAPI.Model
         EURO = 2, 
         Sterlin = 3 
     }
-
+    [Table("hesap")]
     public class Hesap:Base
     {
-        [InverseProperty("NeredenId")]
+        [InverseProperty("GonderenHesap")]
         public ICollection<Hareket> HesaptanHareket { get; set; }
-        [InverseProperty("NereyeId")]
+        [InverseProperty("AlanHesap")]
         public ICollection<Hareket> HesabaHareket { get; set; }
         [Column("kullaniciId")]
         public int KullaniciId { get; set; }
         [ForeignKey(nameof(KullaniciId))]
-        public Kullanıcı Kullanici { get; set; }
+        public Kullanici Kullanici { get; set; }
         [Column("subeId")]
         public int SubeId { get; set; }
         [ForeignKey(nameof(SubeId))]

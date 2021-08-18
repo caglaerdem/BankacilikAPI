@@ -11,12 +11,14 @@ namespace BankacilikAPI.Model
         Admin = 0,
         Musteri = 1 
     }
-    public class Kullanıcı:Base
+    [Table("kullanici")]
+    public class Kullanici:Base
     {
+        [InverseProperty(nameof(Hesap.Kullanici))]
         public ICollection<Hesap> Hesaplar { get; set; }
         [Column("ad")]
         public string Ad { get; set; }
-        [Column("soyisim")]
+        [Column("soyad")]
         public string Soyad { get; set; }
         [Column("tc")]
         public long Tc { get; set; }

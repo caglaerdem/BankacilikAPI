@@ -20,7 +20,7 @@ namespace BankacilikAPI.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IEnumerable<Kullanıcı>> KullaniciGet()
+        public async Task<IEnumerable<Kullanici>> KullaniciGet()
         {
             return await context.Kullanicilar.ToListAsync();
         }

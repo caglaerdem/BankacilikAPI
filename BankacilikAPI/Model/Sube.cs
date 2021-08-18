@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BankacilikAPI.Model
 {
+    [Table("sube")]
     public class Sube:Base
     {
         public ICollection<Hesap> Hesaplar { get; set; }

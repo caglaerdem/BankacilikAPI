@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BankacilikAPI.Model
 {
+    [Table("hareket")]
     public class Hareket:Base
     {
         [Column("neredenId")]
