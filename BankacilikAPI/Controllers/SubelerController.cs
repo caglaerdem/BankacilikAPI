@@ -11,25 +11,24 @@ namespace BankacilikAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class KullanıcılarController:ControllerBase
+    public class SubelerController
     {
         private readonly DataContext context;
-        public KullanıcılarController(DataContext context)
+        public SubelerController(DataContext context)
         {
             this.context = context;
         }
-
         [HttpGet("[action]")]
-        public async Task<IEnumerable<Kullanici>> KullaniciGet()
+        public async Task<IEnumerable<Sube>> SubelerGet()
         {
-            return await context.Kullanicilar.Include(x=>x.Hesaplar).ToListAsync();
+            return await context.Subeler.Include(x=>x.Hesaplar).ToListAsync();
         }
         [HttpPost("[action]")]
-        public async Task<string> KullaniciPost(Kullanici kullanici)
+        public async Task<string> SubePost(Sube sube)
         {
-            await context.Kullanicilar.AddAsync(kullanici);
+            await context.Subeler.AddAsync(sube);
             _ = await context.SaveChangesAsync();
-            return "Kullanıcı eklendi!";
+            return "Şube eklendi!";
         }
     }
 }

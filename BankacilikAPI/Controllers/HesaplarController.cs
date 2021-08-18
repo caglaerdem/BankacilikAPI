@@ -11,25 +11,26 @@ namespace BankacilikAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class KullanıcılarController:ControllerBase
+    public class HesaplarController
     {
         private readonly DataContext context;
-        public KullanıcılarController(DataContext context)
+        public HesaplarController(DataContext context)
         {
             this.context = context;
         }
-
         [HttpGet("[action]")]
-        public async Task<IEnumerable<Kullanici>> KullaniciGet()
+        public async Task<IEnumerable<Hesap>> HesapGet()
         {
-            return await context.Kullanicilar.Include(x=>x.Hesaplar).ToListAsync();
+            return await context.Hesaplar
+                                 .Include(x=>x.HesaptanHareket)
+                                 .Include(x=>x.HesabaHareket).ToListAsync();
         }
         [HttpPost("[action]")]
-        public async Task<string> KullaniciPost(Kullanici kullanici)
+        public async Task<string> HesapPost(Hesap hesap)
         {
-            await context.Kullanicilar.AddAsync(kullanici);
+            await context.Hesaplar.AddAsync(hesap);
             _ = await context.SaveChangesAsync();
-            return "Kullanıcı eklendi!";
+            return "Hesap eklendi!";
         }
     }
 }
