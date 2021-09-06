@@ -1,5 +1,7 @@
 ﻿using BankacilikAPI.Data;
+using BankacilikAPI.Filters;
 using BankacilikAPI.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -30,6 +32,30 @@ namespace BankacilikAPI.Controllers
             await context.Kullanicilar.AddAsync(kullanici);
             _ = await context.SaveChangesAsync();
             return "Kullanıcı eklendi!";
+        }
+        [HttpPost("[action]")]
+        public async Task<string> Login(long tcNum, string parola)
+        {
+            if (await context.Kullanicilar.AnyAsync(x => x.Tc == tcNum) == true)
+            {
+                var kullanici = await context.Kullanicilar.FirstOrDefaultAsync(x => x.Tc == tcNum);
+                if (kullanici.Sifre ==parola)
+                {
+                    HttpContext.Session.SetString("kullanici_adi", kullanici.Ad +" "+ kullanici.Soyad);
+                    HttpContext.Session.SetString("kullanici_id", kullanici.Id.ToString());
+                    HttpContext.Session.SetString("login", "evet");
+                    return SelamVer();
+                }
+                else return "Şifre yanlış!";
+            }
+            else return "Geçerli bir Tc numarası giriniz.";            
+           
+        }
+        [HttpGet("[action]")]
+        [Authentication]
+        public string SelamVer()
+        {
+            return "Merhaba " + HttpContext.Session.GetString("kullanici_adi") + " sisteme hosgeldiniz, id'niz= " + HttpContext.Session.GetString("kullanici_id");          
         }
     }
 }

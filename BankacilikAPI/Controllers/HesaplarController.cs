@@ -24,6 +24,7 @@ namespace BankacilikAPI.Controllers
             return await context.Hesaplar
                                  .Include(x=>x.HesaptanHareket)
                                  .Include(x=>x.HesabaHareket).ToListAsync();
+
         }
         [HttpPost("[action]")]
         public async Task<string> HesapPost(Hesap hesap)

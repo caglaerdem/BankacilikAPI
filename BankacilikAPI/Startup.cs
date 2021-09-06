@@ -32,6 +32,14 @@ namespace BankacilikAPI
             services.AddControllers().AddNewtonsoftJson(x=>x.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             string mySqlConnectionStr = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContextPool<DataContext>(options => options.UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr)));
+            services.AddSession(config =>
+            {
+                config.Cookie.IsEssential = true;
+                config.Cookie.Name = "BankAPI-Session";
+                config.Cookie.HttpOnly = true;
+                config.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
+            services.AddDistributedMemoryCache();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BankacilikAPI", Version = "v1" });
@@ -41,6 +49,9 @@ namespace BankacilikAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            app.UseSession();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
