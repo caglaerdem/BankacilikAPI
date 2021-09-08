@@ -44,18 +44,25 @@ namespace BankacilikAPI.Controllers
                     HttpContext.Session.SetString("kullanici_adi", kullanici.Ad +" "+ kullanici.Soyad);
                     HttpContext.Session.SetString("kullanici_id", kullanici.Id.ToString());
                     HttpContext.Session.SetString("login", "evet");
+                    HttpContext.Session.SetString("kullanici_rol", ((int)kullanici.Rol).ToString());
                     return SelamVer();
+                   
                 }
                 else return "Şifre yanlış!";
+                
             }
-            else return "Geçerli bir Tc numarası giriniz.";            
+            else return "Geçerli bir Tc numarası giriniz.";
+
+            
            
         }
         [HttpGet("[action]")]
         [Authentication]
+        [Authorization(Rol.Admin)]
         public string SelamVer()
         {
-            return "Merhaba " + HttpContext.Session.GetString("kullanici_adi") + " sisteme hosgeldiniz, id'niz= " + HttpContext.Session.GetString("kullanici_id");          
+            return "Merhaba " + HttpContext.Session.GetString("kullanici_adi") + " sisteme hosgeldiniz, id'niz= "
+                + HttpContext.Session.GetString("kullanici_id")+" ,Rolunuz= " + HttpContext.Session.GetString("kullanici_rol");          
         }
     }
 }
